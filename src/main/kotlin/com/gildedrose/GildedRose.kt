@@ -2,57 +2,27 @@ package com.gildedrose
 
 class GildedRose(var items: Array<Item>) {
 
+    private val defaultItemStrategy = defaultSellInStrategy() to defaultQualityStrategy()
+    private val strategyMap: Map<String, Pair<SellInStrategy, QualityStrategy>> =
+        mapOf(
+            agedBrie to (defaultSellInStrategy() to agedBrieQualityStrategy()),
+            backstagePassess to (defaultSellInStrategy() to backstagePassesQualityStrategy()),
+            conjuredManaCake to (defaultSellInStrategy() to conjuredManaCakeQualityStrategy()),
+            sulfuras to (identitySellInStrategy() to identityQualityStrategy())
+        )
+
     fun updateQuality() {
-        for (i in items.indices) {
-            if (items[i].name != "Aged Brie" && items[i].name != "Backstage passes to a TAFKAL80ETC concert") {
-                if (items[i].quality > 0) {
-                    if (items[i].name != "Sulfuras, Hand of Ragnaros") {
-                        items[i].quality = items[i].quality - 1
-                    }
-                }
-            } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1
+        items.forEach {
+            val currSellIn = SellIn(it.sellIn)
+            val currQuality = Quality(it.quality)
 
-                    if (items[i].name == "Backstage passes to a TAFKAL80ETC concert") {
-                        if (items[i].sellIn < 11) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1
-                            }
-                        }
+            val itemStrategy = strategyMap.getOrDefault(it.name, defaultItemStrategy)
+            val newSellIn = itemStrategy.first.updateSellInValue(currSellIn)
+            val newQuality = itemStrategy.second.updateQuality(currSellIn, currQuality)
 
-                        if (items[i].sellIn < 6) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (items[i].name != "Sulfuras, Hand of Ragnaros") {
-                items[i].sellIn = items[i].sellIn - 1
-            }
-
-            if (items[i].sellIn < 0) {
-                if (items[i].name != "Aged Brie") {
-                    if (items[i].name != "Backstage passes to a TAFKAL80ETC concert") {
-                        if (items[i].quality > 0) {
-                            if (items[i].name != "Sulfuras, Hand of Ragnaros") {
-                                items[i].quality = items[i].quality - 1
-                            }
-                        }
-                    } else {
-                        items[i].quality = items[i].quality - items[i].quality
-                    }
-                } else {
-                    if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1
-                    }
-                }
-            }
+            it.quality = (currQuality + newQuality).quality
+            it.sellIn = newSellIn.days
         }
     }
-
 }
 

@@ -1,6 +1,5 @@
 package com.gildedrose
 
-internal const val dexterityVest = "+5 Dexterity Vest"
 internal const val agedBrie = "Aged Brie"
 internal const val sulfuras = "Sulfuras, Hand of Ragnaros"
 internal const val backstagePassess = "Backstage passes to a TAFKAL80ETC concert"
