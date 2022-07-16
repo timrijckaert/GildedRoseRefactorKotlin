@@ -1,5 +1,6 @@
 package com.gildedrose
 
+// Could become an immutable variable, but prohibited by requirements
 class GildedRose(var items: Array<Item>) {
 
     private val defaultItemStrategy = defaultSellInStrategy() to defaultQualityStrategy()
