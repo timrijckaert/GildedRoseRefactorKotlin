@@ -12,8 +12,7 @@ import io.kotest.property.arbitrary.next
 
 internal class GildedRoseTest : StringSpec() {
     init {
-        "+5 Dexterity Vest" {
-            val dexterityVest = "+5 Dexterity Vest"
+        dexterityVest {
             table(
                 headers("days passed", "expected sell in", "expected quality"),
                 row(1, 9, 19),
@@ -30,8 +29,7 @@ internal class GildedRoseTest : StringSpec() {
             }
         }
 
-        "Aged Brie" {
-            val agedBrie = "Aged Brie"
+        agedBrie {
             table(
                 headers("days passed", "expected sell in", "expected quality"),
                 row(1, 1, 1),
@@ -49,6 +47,7 @@ internal class GildedRoseTest : StringSpec() {
             }
         }
 
+        // TODO Check same as normal item?
         "Elixir of the Mongoose" {
             val elixirOfTheMongoose = "Elixir of the Mongoose"
             table(
@@ -66,8 +65,7 @@ internal class GildedRoseTest : StringSpec() {
             }
         }
 
-        "Sulfuras, Hand of Ragnaros" {
-            val sulfuras = "Sulfuras, Hand of Ragnaros"
+        sulfuras {
             val sellIn = Arb.int().next()
             val quality = Arb.int().next()
             val item = Item(sulfuras, sellIn, quality)
@@ -76,8 +74,7 @@ internal class GildedRoseTest : StringSpec() {
             item shouldBeEqualToComparingFields Item(sulfuras, sellIn, quality)
         }
 
-        "Backstage passes to a TAFKAL80ETC concert" {
-            val backstagePass = "Backstage passes to a TAFKAL80ETC concert"
+        backstagePassess {
             table(
                 headers("days passed", "expected sell in", "expected quality"),
                 row(1, 14, 21),
@@ -91,15 +88,14 @@ internal class GildedRoseTest : StringSpec() {
                 row(16, -1, 0),
                 row(17, -2, 0),
             ).forAll { days, sellIn, quality ->
-                val item = Item(backstagePass, 15, 20)
+                val item = Item(backstagePassess, 15, 20)
                 val gildedRose = GildedRose(arrayOf(item))
                 repeat(days) { gildedRose.updateQuality() }
-                item shouldBeEqualToComparingFields Item(backstagePass, sellIn, quality)
+                item shouldBeEqualToComparingFields Item(backstagePassess, sellIn, quality)
             }
         }
 
-        "Conjured Mana Cake" {
-            val conjuredManaCake = "Conjured Mana Cake"
+        conjuredManaCake {
             table(
                 headers("days passed", "expected sell in", "expected quality"),
                 row(1, 2, 8),
