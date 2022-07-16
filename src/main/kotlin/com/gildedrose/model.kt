@@ -4,4 +4,4 @@ package com.gildedrose
 value class SellIn(val days: Int)
 
 @JvmInline
-value class Quality(val quality: UInt)
+value class Quality(val quality: Int)
