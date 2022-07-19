@@ -3,7 +3,7 @@ package com.gildedrose
 import kotlin.math.abs
 
 fun interface QualityStrategy {
-    fun updateQuality(sellIn: SellIn, currentQuality: Quality): Int
+    fun calculateExtraQuality(sellIn: SellIn, currentQuality: Quality): Int
 }
 
 internal fun defaultQualityStrategy() =
@@ -15,7 +15,7 @@ internal fun defaultQualityStrategy() =
         }
     }
 
-internal fun agedBrieQualityStrategy() = QualityStrategy { sellIn, currQuality -> abs(defaultQualityStrategy().updateQuality(sellIn, currQuality)) }
+internal fun agedBrieQualityStrategy() = QualityStrategy { sellIn, currQuality -> abs(defaultQualityStrategy().calculateExtraQuality(sellIn, currQuality)) }
 internal fun identityQualityStrategy() = QualityStrategy { _, _ -> 0 }
 internal fun backstagePassesQualityStrategy() = QualityStrategy { sellIn, currQuality ->
     if (sellIn.days - 1 < 0) {
@@ -29,4 +29,4 @@ internal fun backstagePassesQualityStrategy() = QualityStrategy { sellIn, currQu
     }
 }
 
-internal fun conjuredManaCakeQualityStrategy() = QualityStrategy { sellIn, currQuality -> defaultQualityStrategy().updateQuality(sellIn, currQuality) * 2 }
+internal fun conjuredManaCakeQualityStrategy() = QualityStrategy { sellIn, currQuality -> defaultQualityStrategy().calculateExtraQuality(sellIn, currQuality) * 2 }

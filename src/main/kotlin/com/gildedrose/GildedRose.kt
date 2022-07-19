@@ -19,7 +19,7 @@ class GildedRose(var items: Array<Item>) {
 
             val (sellInStrategy, qualityStrategy) = strategyMap.getOrDefault(it.name, defaultItemStrategy)
             val newSellIn = sellInStrategy.updateSellInValue(currSellIn)
-            val extraQuality = qualityStrategy.updateQuality(currSellIn, currQuality)
+            val extraQuality = qualityStrategy.calculateExtraQuality(currSellIn, currQuality)
 
             it.quality = (currQuality + extraQuality).quality
             it.sellIn = newSellIn.days
